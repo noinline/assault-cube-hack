@@ -36,3 +36,6 @@
 *.db-wal
 *.ipch
 *.opendb
+/.vs
+/build
+/Universal OpenGL 2 Kiero Hook/Debug

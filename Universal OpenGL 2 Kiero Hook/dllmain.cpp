@@ -32,13 +32,12 @@ struct functions_t
 
 struct colors_t
 {
-	ImColor line = (255, 255, 255, 255);
-}col;
+	ImColor line = {255, 255, 255, 255};
+} col;
 
 static auto
 WorldToScreen(Vector pos) -> Vector2D
 {
-	ImGui::Text("called WorldToScreen");
 	Vector clip = {0.0f, 0.0f, 0.0f};
 	Vector2D ndc = {0.0f, 0.0f};
 	Vector2D result = {0.0f, 0.0f};
@@ -68,24 +67,21 @@ WorldToScreen(Vector pos) -> Vector2D
 				(ndc.x + ImGui::GetIO().DisplaySize.x / 2));
 	result.y = (-(ImGui::GetIO().DisplaySize.y / 2 * ndc.y) +
 				(ndc.y + ImGui::GetIO().DisplaySize.y / 2));
-	ImGui::Text("Returned WorldToScreen");
 	return result;
 }
 
 auto
 RenderLineToPlayer(Vector pos, ImColor col, float thickness) -> void
 {
-	pos = {pos.x, pos.y, pos.z};
-
 	Vector2D translate = WorldToScreen(pos);
 
 	if (translate.x == NULL && translate.y == NULL)
 		return;
-	
-	ImGui::GetBackgroundDrawList()->AddLine(ImVec2
-		(ImGui::GetIO().DisplaySize.x / 2, ImGui::GetIO().DisplaySize.y),
-		ImVec2(translate.x, translate.y), col, thickness);
 
+	ImGui::GetBackgroundDrawList()->AddLine(
+		ImVec2(ImGui::GetIO().DisplaySize.x / 2,
+			   ImGui::GetIO().DisplaySize.y / 2),
+		ImVec2(translate.x, translate.y), col, thickness);
 }
 
 auto
@@ -93,10 +89,10 @@ Loop(void) -> void
 {
 	int local_player =
 		*reinterpret_cast<int *>((offset.base + offset.local_player));
-	char *local_player_name = reinterpret_cast<char *>((local_player + 0x205));
-	float local_pos_x = *reinterpret_cast<float *>((local_player + 0x28));
-	float local_pos_y = *reinterpret_cast<float *>((local_player + 0x2C));
-	float local_pos_z = *reinterpret_cast<float *>((local_player + 0x30));
+	char *local_player_name = reinterpret_cast<char *>(local_player + 0x205);
+	float local_pos_x = *reinterpret_cast<float *>(local_player + 0x28);
+	float local_pos_y = *reinterpret_cast<float *>(local_player + 0x2C);
+	float local_pos_z = *reinterpret_cast<float *>(local_player + 0x30);
 	float final_pos_x = local_pos_x + 5.0f;
 	int ent_list = *reinterpret_cast<int *>((offset.base + offset.entity_list));
 	int player_count =
@@ -149,41 +145,26 @@ Loop(void) -> void
 		}
 	}
 
-	int local_player_team_id_address = local_player + 0x30C;
 	for (int i = 0; i < player_count; ++i)
 	{
 		int player = *reinterpret_cast<int *>((ent_list + 0x4 * i));
 
-		float player_pos_x = *reinterpret_cast<float *>(player + 0x28);
-		float player_pos_y = *reinterpret_cast<float *>(player + 0x2C);
-		float player_pos_z = *reinterpret_cast<float *>(player + 0x30); 
-
-		int player_team_id =
-			*reinterpret_cast<int *>((ent_list + 0x30C + 0x4 * i));
-
-		int local_player_team_id =
-			*reinterpret_cast<int *>(local_player_team_id_address);
-
 		if (!player)
 			continue;
 
-		if (!player_team_id)
-			continue;
-
-		if (!local_player_team_id)
-			continue;
-
 		if (func.line)
-		RenderLineToPlayer({player_pos_x, player_pos_y, player_pos_z},
-						   col.line, 2.f);
+			RenderLineToPlayer({*reinterpret_cast<float *>(player + 0x28),
+								*reinterpret_cast<float *>(player + 0x2C),
+								*reinterpret_cast<float *>(player + 0x30)},
+							   col.line, 2.f);
 
 		if (func.teleport)
 		{
 			if (::GetAsyncKeyState(0x54))
 			{
-				player_pos_x = final_pos_x;
-				player_pos_y = local_pos_y;
-				player_pos_z = local_pos_z;
+				*reinterpret_cast<float *>(player + 0x28) = final_pos_x;
+				*reinterpret_cast<float *>(player + 0x2C) = local_pos_y;
+				*reinterpret_cast<float *>(player + 0x30) = local_pos_z;
 			}
 		}
 	}
@@ -221,7 +202,7 @@ RenderMain(void) -> void
 	ImGui::SetNextWindowPos(
 		{ImGui::GetIO().DisplaySize.x / 2, ImGui::GetIO().DisplaySize.y / 2},
 		ImGuiCond_Once, {0.5, 0.5});
-	ImGui::SetNextWindowSize({250.f, 150.f}, NULL);
+	ImGui::SetNextWindowSize({400.f, 150.f}, NULL);
 
 	if (::GetAsyncKeyState(VK_DELETE) & 1)
 		func.show_menu = !func.show_menu;
@@ -236,7 +217,7 @@ RenderMain(void) -> void
 		ImGui::Checkbox("Show line", &func.line);
 		ImGui::SameLine();
 		ImGui::ColorEdit4("##line_color", reinterpret_cast<float *>(&col.line),
-						  ImGuiColorEditFlags_NoLabel);
+						  ImGuiColorEditFlags_NoInputs);
 		if (ImGui::Button("Unload", {100, 50}))
 		{
 			UnloadMain();
