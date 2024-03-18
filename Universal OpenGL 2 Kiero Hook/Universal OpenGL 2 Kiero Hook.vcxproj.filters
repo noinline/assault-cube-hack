@@ -137,5 +137,8 @@
     <ClInclude Include="include\kiero\minhook\include\MinHook.h">
       <Filter>Includes\kiero\minhook\include</Filter>
     </ClInclude>
+    <ClInclude Include="vector.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
