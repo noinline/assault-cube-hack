@@ -31,10 +31,10 @@ Render::WorldToScreen(Vector pos) -> decltype(Vector2D())
 	ndc.x = clip.x / clip.z;
 	ndc.y = clip.y / clip.z;
 
-	result.x = ((ImGui::GetIO().DisplaySize.x / 2 * ndc.x) +
-				(ndc.x + ImGui::GetIO().DisplaySize.x / 2));
-	result.y = (-(ImGui::GetIO().DisplaySize.y / 2 * ndc.y) +
-				(ndc.y + ImGui::GetIO().DisplaySize.y / 2));
+	result.x = ((::ImGui::GetIO().DisplaySize.x / 2 * ndc.x) +
+				(ndc.x + ::ImGui::GetIO().DisplaySize.x / 2));
+	result.y = (-(::ImGui::GetIO().DisplaySize.y / 2 * ndc.y) +
+				(ndc.y + ::ImGui::GetIO().DisplaySize.y / 2));
 	return result;
 }
 
@@ -48,8 +48,8 @@ Render::LineToPlayer(Vector pos, ImColor col, float thickness)
 	if (translate.x == NULL && translate.y == NULL)
 		return;
 
-	ImGui::GetBackgroundDrawList()->AddLine(
-		ImVec2(ImGui::GetIO().DisplaySize.x / 2,
-			   ImGui::GetIO().DisplaySize.y / 2),
+	::ImGui::GetBackgroundDrawList()->AddLine(
+		ImVec2(::ImGui::GetIO().DisplaySize.x / 2,
+			   ::ImGui::GetIO().DisplaySize.y / 2),
 		ImVec2(translate.x, translate.y), col, thickness);
 }

@@ -90,7 +90,7 @@ Hack::Loop(PlayerData &playerData) -> decltype(void())
 
 		if (func.line)
 		{
-			render.LineToPlayer({*reinterpret_cast<float *>(playerList + 0x28),
+			::render.LineToPlayer({*reinterpret_cast<float *>(playerList + 0x28),
 								 *reinterpret_cast<float *>(playerList + 0x2C),
 								 *reinterpret_cast<float *>(playerList + 0x30)},
 								menu->col.line, 2.f);

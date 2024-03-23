@@ -8,27 +8,27 @@
 
 auto __stdcall UnloadDllMain(void) -> decltype(int())
 {
-	kiero::shutdown();
+	::kiero::shutdown();
 	return TRUE;
 }
 
 auto __stdcall Init(void) -> decltype(std::function<void()>())
 {
 	return [&] { 
-		if (menu != nullptr)
+		if (::menu != nullptr)
 		{
-			menu->Render();
+			::menu->Render();
 		}
 		else
 		{
 			::printf("menu pointer is: nullptr");
 		}
 
-		if (hack != nullptr)
+		if (::hack != nullptr)
 		{
-			Hack::PlayerData playerData;
-			hack->StorePlayerData(playerData);
-			hack->Loop(playerData);
+			::Hack::PlayerData playerData;
+			::hack->StorePlayerData(playerData);
+			::hack->Loop(playerData);
 		}
 		else
 		{
@@ -44,10 +44,10 @@ auto __stdcall DllMain(HMODULE hMod, DWORD dwReason, LPVOID lpReserved)
 	{
 	case DLL_PROCESS_ATTACH:
 		::DisableThreadLibraryCalls(hMod);
-		ImGuiHook::Load(Init());
+		::ImGuiHook::Load(Init());
 		break;
 	case DLL_PROCESS_DETACH:
-		UnloadDllMain();
+		::UnloadDllMain();
 		break;
 	}
 	return TRUE;
