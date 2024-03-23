@@ -12,9 +12,9 @@ auto __stdcall UnloadDllMain(void) -> decltype(int())
 	return TRUE;
 }
 
-auto __stdcall Init(void) -> decltype(std::function<void()>())
+auto __stdcall Init(void) -> decltype(::std::function<void()>())
 {
-	return [&] { 
+	return [&] {
 		if (::menu != nullptr)
 		{
 			::menu->Render();
@@ -37,14 +37,14 @@ auto __stdcall Init(void) -> decltype(std::function<void()>())
 	};
 }
 
-auto __stdcall DllMain(HMODULE hMod, DWORD dwReason, LPVOID lpReserved)
+auto __stdcall DllMain(::HMODULE hMod, ::DWORD dwReason, ::LPVOID lpReserved)
 	-> decltype(int())
 {
 	switch (dwReason)
 	{
 	case DLL_PROCESS_ATTACH:
 		::DisableThreadLibraryCalls(hMod);
-		::ImGuiHook::Load(Init());
+		::ImGuiHook::Load(::Init());
 		break;
 	case DLL_PROCESS_DETACH:
 		::UnloadDllMain();

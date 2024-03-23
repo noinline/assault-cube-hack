@@ -5,8 +5,8 @@
 class Render
 {
   public:
-	Vector2D WorldToScreen(Vector pos);
-	void LineToPlayer(Vector pos, ImColor col, float thickness);
+	::Vector2D WorldToScreen(::Vector pos);
+	void LineToPlayer(::Vector pos, ::ImColor col, float thickness);
 };
 
-extern Render render;
+extern ::Render render;

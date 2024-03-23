@@ -1,15 +1,15 @@
 #include "../include/render.h"
+
 #include "../include/hack.h"
 
-Render render;
+::Render render;
 
-auto
-Render::WorldToScreen(Vector pos) -> decltype(Vector2D())
+auto ::Render::WorldToScreen(::Vector pos) -> decltype(::Vector2D())
 {
-	Vector clip = {0.0f, 0.0f, 0.0f};
-	Vector2D ndc = {0.0f, 0.0f};
-	Vector2D result = {0.0f, 0.0f};
-	Vector2D base = {0.0f, 0.0f};
+	::Vector clip = {0.0f, 0.0f, 0.0f};
+	::Vector2D ndc = {0.0f, 0.0f};
+	::Vector2D result = {0.0f, 0.0f};
+	::Vector2D base = {0.0f, 0.0f};
 
 	float matrix[16]{};
 	for (int i = 0; i < 16; i++)
@@ -38,18 +38,17 @@ Render::WorldToScreen(Vector pos) -> decltype(Vector2D())
 	return result;
 }
 
-auto
-Render::LineToPlayer(Vector pos, ImColor col, float thickness)
+auto ::Render::LineToPlayer(::Vector pos, ::ImColor col, float thickness)
 	-> decltype(void())
 {
 
-	Vector2D translate = WorldToScreen(pos);
+	::Vector2D translate = this->WorldToScreen(pos);
 
 	if (translate.x == NULL && translate.y == NULL)
 		return;
 
 	::ImGui::GetBackgroundDrawList()->AddLine(
-		ImVec2(::ImGui::GetIO().DisplaySize.x / 2,
-			   ::ImGui::GetIO().DisplaySize.y / 2),
-		ImVec2(translate.x, translate.y), col, thickness);
+		::ImVec2(::ImGui::GetIO().DisplaySize.x / 2,
+				 ::ImGui::GetIO().DisplaySize.y / 2),
+		::ImVec2(translate.x, translate.y), col, thickness);
 }

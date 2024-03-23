@@ -2,13 +2,13 @@
 
 #include "../include/menu.h"
 
-Hack *hack = new Hack();
+::Flags *flag = new ::Flags();
+::Hack *hack = new ::Hack();
 
-auto
-Hack::StorePlayerData(PlayerData &playerData) -> decltype(void())
+auto ::Hack::StorePlayerData(PlayerData &playerData) -> decltype(void())
 {
 	playerData.localPlayer =
-		*reinterpret_cast<int *>((offset.base + offset.localPlayer));
+		*reinterpret_cast<int *>(offset.base + offset.localPlayer);
 	playerData.localPlayerName =
 		reinterpret_cast<char *>(playerData.localPlayer + 0x205);
 	playerData.localPlayerFlags =
@@ -23,9 +23,9 @@ Hack::StorePlayerData(PlayerData &playerData) -> decltype(void())
 		*reinterpret_cast<float *>(playerData.localPlayer + 0x30);
 	playerData.finalPosX = playerData.localPosX + 5.0f;
 	playerData.entList =
-		*reinterpret_cast<int *>((offset.base + offset.entityList));
+		*reinterpret_cast<int *>(offset.base + offset.entityList);
 	playerData.playerCount =
-		*reinterpret_cast<int *>((offset.base + offset.playerCount));
+		*reinterpret_cast<int *>(offset.base + offset.playerCount);
 	playerData.localPlayerHealthAddress = playerData.localPlayer + 0xEC;
 	playerData.localPlayerHealth =
 		*reinterpret_cast<int *>(playerData.localPlayerHealthAddress);
@@ -36,8 +36,7 @@ Hack::StorePlayerData(PlayerData &playerData) -> decltype(void())
 		*reinterpret_cast<int *>(playerData.debugModeFreeCameraAddress);
 }
 
-auto
-Hack::Loop(PlayerData &playerData) -> decltype(void())
+auto ::Hack::Loop(PlayerData &playerData) -> decltype(void())
 {
 	if (func.godMode)
 	{
@@ -78,22 +77,26 @@ Hack::Loop(PlayerData &playerData) -> decltype(void())
 	for (int i = 0; i < playerData.playerCount; ++i)
 	{
 		int playerList =
-			*reinterpret_cast<int *>((playerData.entList + 0x4 * i));
+			*reinterpret_cast<int *>(playerData.entList + 0x4 * i);
 
 		if (!playerList)
 			continue;
 
-		playerData.playerTeam = *reinterpret_cast<int *>(playerList + 0x30C);
+		//playerData.playerTeam = *reinterpret_cast<int *>(playerList + 0x30C);
 
-		if (playerData.playerTeam == playerData.localPlayer)
-			continue;
+		//if (flag == nullptr)
+		//	continue;
+
+		//if (flag->IsEnemy(playerData.playerTeam))
+		//	continue;
 
 		if (func.line)
 		{
-			::render.LineToPlayer({*reinterpret_cast<float *>(playerList + 0x28),
-								 *reinterpret_cast<float *>(playerList + 0x2C),
-								 *reinterpret_cast<float *>(playerList + 0x30)},
-								menu->col.line, 2.f);
+			::render.LineToPlayer(
+				{*reinterpret_cast<float *>(playerList + 0x28),
+				 *reinterpret_cast<float *>(playerList + 0x2C),
+				 *reinterpret_cast<float *>(playerList + 0x30)},
+				menu->col.line, 2.f);
 		}
 
 		if (func.teleport)
@@ -108,6 +111,5 @@ Hack::Loop(PlayerData &playerData) -> decltype(void())
 					playerData.localPosZ;
 			}
 		}
-
 	}
 }

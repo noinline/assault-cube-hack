@@ -19,8 +19,8 @@ class Flags
 
 	enum Team
 	{
-	LocalTeam = 0,
-	EnemyTeam = 1
+		LocalTeam = 0,
+		EnemyTeam = 1
 	};
 
   public:
@@ -41,7 +41,18 @@ class Flags
 		}
 		return false;
 	}
+
+	auto IsEnemy(int local_player_flags) -> bool
+	{
+		if (local_player_flags == Team::EnemyTeam)
+		{
+			return true;
+		}
+		return false;
+	}
 };
+
+extern ::Flags *flag;
 
 class Hack
 {
@@ -103,4 +114,4 @@ class Hack
 	void Loop(PlayerData &playerData);
 };
 
-extern Hack *hack;
+extern ::Hack *hack;
