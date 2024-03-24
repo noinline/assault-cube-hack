@@ -11,7 +11,7 @@ class Menu
 	int currentTab = 0;
 
   public:
-	void ShowMenu();
+	void Init();
 };
 
 extern ::Menu *menu;

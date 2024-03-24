@@ -4,7 +4,7 @@
 
 ::Menu *menu = new ::Menu();
 
-auto ::Menu::ShowMenu(void) -> decltype(void())
+auto ::Menu::Init(void) -> decltype(void())
 {
 	::ImGui::SetNextWindowPos({::ImGui::GetIO().DisplaySize.x / 2,
 							   ::ImGui::GetIO().DisplaySize.y / 2},
@@ -32,7 +32,6 @@ auto ::Menu::ShowMenu(void) -> decltype(void())
 
 				if (::ImGui::Button("exploits", ::ImVec2{100, 30}))
 					this->currentTab = 2;
-					
 			}
 			::ImGui::EndGroup();
 
@@ -70,7 +69,6 @@ auto ::Menu::ShowMenu(void) -> decltype(void())
 					::ImGui::Checkbox("Toggle godmode", &::hack->func.godMode);
 					::ImGui::Checkbox("Toggle teleport",
 									  &::hack->func.teleport);
-					//::ImGui::Checkbox("Toggle bhop", &hack->func.bhop);
 					::ImGui::Checkbox("Toggle funny camera",
 									  &::hack->func.funnyCamera);
 					::ImGui::Checkbox("Toggle noclip", &::hack->func.noclip);

@@ -7,6 +7,7 @@ class Main
   public:
 	HMODULE handleModule = nullptr;
 	bool unload = false;
+
   public:
 	void __stdcall CleanUpDllMain();
 	int __stdcall UnloadDllMain();

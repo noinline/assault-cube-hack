@@ -35,6 +35,7 @@ auto ::Render::WorldToScreen(::Vector pos) -> decltype(::Vector2D())
 				(ndc.x + ::ImGui::GetIO().DisplaySize.x / 2));
 	result.y = (-(::ImGui::GetIO().DisplaySize.y / 2 * ndc.y) +
 				(ndc.y + ::ImGui::GetIO().DisplaySize.y / 2));
+
 	return result;
 }
 

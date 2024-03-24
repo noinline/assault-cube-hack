@@ -26,6 +26,11 @@ auto __stdcall ::Main::CleanUpDllMain(void) -> decltype(void())
 		::delete ::menu;
 		::menu = nullptr;
 	}
+	if (::dllmain != nullptr)
+	{
+		::delete ::dllmain;
+		::dllmain = nullptr;
+	}
 }
 
 auto __stdcall ::Main::UnloadDllMain(void) -> decltype(int())
@@ -38,27 +43,27 @@ auto __stdcall ::Main::UnloadDllMain(void) -> decltype(int())
 auto __stdcall ::Main::Init(void) -> decltype(::std::function<void()>())
 {
 	if (::dllmain != nullptr)
-	return [&] {
-		if (::menu != nullptr)
-		{
-			::menu->ShowMenu();
-		}
-		else
-		{
-			::printf("menu pointer is: nullptr");
-		}
+		return [&] {
+			if (::menu != nullptr)
+			{
+				::menu->Init();
+			}
+			else
+			{
+				::printf("menu pointer is: nullptr");
+			}
 
-		if (::hack != nullptr)
-		{
-			::Hack::PlayerData playerData;
-			::hack->StorePlayerData(playerData);
-			::hack->Loop(playerData);
-		}
-		else
-		{
-			::printf("hack pointer is: nullptr");
-		}
-	};
+			if (::hack != nullptr)
+			{
+				::Hack::PlayerData playerData;
+				::hack->StorePlayerData(playerData);
+				::hack->Loop(playerData);
+			}
+			else
+			{
+				::printf("hack pointer is: nullptr");
+			}
+		};
 
 	return NULL;
 }
@@ -74,11 +79,6 @@ auto __stdcall DllMain(::HMODULE hMod, ::DWORD dwReason, ::LPVOID lpReserved)
 		::ImGuiHook::Load(::dllmain->Init());
 		break;
 	case DLL_PROCESS_DETACH:
-		if (::dllmain != nullptr)
-		{
-			::delete ::dllmain;
-			::dllmain = nullptr;
-		}
 		break;
 	}
 	return TRUE;

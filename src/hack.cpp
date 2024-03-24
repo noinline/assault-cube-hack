@@ -1,7 +1,7 @@
 #include "../include/hack.h"
 
-#include "../include/menu.h"
 #include "../include/dllmain.h"
+#include "../include/menu.h"
 ::Flags *flag = new ::Flags();
 ::Hack *hack = new ::Hack();
 
@@ -38,13 +38,6 @@ auto ::Hack::StorePlayerData(PlayerData &playerData) -> decltype(void())
 
 auto ::Hack::Loop(PlayerData &playerData) -> decltype(void())
 {
-	if (::GetAsyncKeyState(VK_INSERT))
-	{
-		::dllmain->unload = true;
-		::dllmain->UnloadDllMain();
-		::FreeLibraryAndExitThread(::dllmain->handleModule, NULL);
-	}
-
 	if (::hack->func.godMode)
 	{
 		*reinterpret_cast<int *>(playerData.localPlayerHealthAddress) =
@@ -84,19 +77,10 @@ auto ::Hack::Loop(PlayerData &playerData) -> decltype(void())
 
 	for (int i = 0; i < playerData.playerCount; ++i)
 	{
-		int playerList =
-			*reinterpret_cast<int *>(playerData.entList + 0x4 * i);
+		int playerList = *reinterpret_cast<int *>(playerData.entList + 0x4 * i);
 
 		if (!playerList)
 			continue;
-
-		//playerData.playerTeam = *reinterpret_cast<int *>(playerList + 0x30C);
-
-		//if (flag == nullptr)
-		//	continue;
-
-		//if (flag->IsEnemy(playerData.playerTeam))
-		//	continue;
 
 		if (::hack->func.line)
 		{
