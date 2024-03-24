@@ -179,6 +179,7 @@
     <ClCompile Include="src\render.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\dllmain.h" />
     <ClInclude Include="include\menu.h" />
     <ClInclude Include="include\hack.h" />
     <ClInclude Include="include\render.h" />

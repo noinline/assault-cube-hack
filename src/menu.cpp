@@ -4,7 +4,7 @@
 
 ::Menu *menu = new ::Menu();
 
-auto ::Menu::Render(void) -> decltype(void())
+auto ::Menu::ShowMenu(void) -> decltype(void())
 {
 	::ImGui::SetNextWindowPos({::ImGui::GetIO().DisplaySize.x / 2,
 							   ::ImGui::GetIO().DisplaySize.y / 2},
@@ -12,7 +12,7 @@ auto ::Menu::Render(void) -> decltype(void())
 	::ImGui::SetNextWindowSize(::ImVec2{400.f, 150.f}, NULL);
 
 	if (::GetAsyncKeyState(VK_DELETE) & 1)
-		::hack->func.showMenu = !hack->func.showMenu;
+		::hack->func.showMenu = !::hack->func.showMenu;
 
 	if (::hack->func.showMenu)
 	{
@@ -32,6 +32,7 @@ auto ::Menu::Render(void) -> decltype(void())
 
 				if (::ImGui::Button("exploits", ::ImVec2{100, 30}))
 					this->currentTab = 2;
+					
 			}
 			::ImGui::EndGroup();
 
@@ -52,7 +53,7 @@ auto ::Menu::Render(void) -> decltype(void())
 				::ImGui::BeginChild("##container1", ::ImVec2{200, 130}, false,
 									::ImGuiWindowFlags_None);
 				{
-					::ImGui::Checkbox("Show line", &hack->func.line);
+					::ImGui::Checkbox("Show line", &::hack->func.line);
 					::ImGui::SameLine();
 					::ImGui::ColorEdit4("##line_color",
 										reinterpret_cast<float *>(&col.line),
@@ -66,12 +67,13 @@ auto ::Menu::Render(void) -> decltype(void())
 				::ImGui::BeginChild("##container2", ::ImVec2{200, 130}, false,
 									::ImGuiWindowFlags_None);
 				{
-					::ImGui::Checkbox("Toggle godmode", &hack->func.godMode);
-					::ImGui::Checkbox("Toggle teleport", &hack->func.teleport);
+					::ImGui::Checkbox("Toggle godmode", &::hack->func.godMode);
+					::ImGui::Checkbox("Toggle teleport",
+									  &::hack->func.teleport);
 					//::ImGui::Checkbox("Toggle bhop", &hack->func.bhop);
 					::ImGui::Checkbox("Toggle funny camera",
-									  &hack->func.funnyCamera);
-					::ImGui::Checkbox("Toggle noclip", &hack->func.noclip);
+									  &::hack->func.funnyCamera);
+					::ImGui::Checkbox("Toggle noclip", &::hack->func.noclip);
 				}
 				::ImGui::EndChild();
 			}

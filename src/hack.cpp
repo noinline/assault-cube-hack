@@ -1,7 +1,7 @@
 #include "../include/hack.h"
 
 #include "../include/menu.h"
-
+#include "../include/dllmain.h"
 ::Flags *flag = new ::Flags();
 ::Hack *hack = new ::Hack();
 
@@ -38,27 +38,35 @@ auto ::Hack::StorePlayerData(PlayerData &playerData) -> decltype(void())
 
 auto ::Hack::Loop(PlayerData &playerData) -> decltype(void())
 {
-	if (func.godMode)
+	if (::GetAsyncKeyState(VK_INSERT))
+	{
+		::dllmain->unload = true;
+		::dllmain->UnloadDllMain();
+		::FreeLibraryAndExitThread(::dllmain->handleModule, NULL);
+	}
+
+	if (::hack->func.godMode)
 	{
 		*reinterpret_cast<int *>(playerData.localPlayerHealthAddress) =
 			playerData.localPlayerHealthModified;
 	}
-	else if (!func.godMode && playerData.localPlayerHealth == HealthModified)
+	else if (!::hack->func.godMode &&
+			 playerData.localPlayerHealth == HealthModified)
 	{
 		*reinterpret_cast<int *>(playerData.localPlayerHealthAddress) = 100;
 	}
 
-	if (func.funnyCamera)
+	if (::hack->func.funnyCamera)
 	{
 		*reinterpret_cast<int *>(playerData.cameraAddress) =
 			playerData.cameraModified;
 	}
-	else if (!func.funnyCamera && playerData.camera == CameraModified)
+	else if (!::hack->func.funnyCamera && playerData.camera == CameraModified)
 	{
 		*reinterpret_cast<int *>(playerData.cameraAddress) = NULL;
 	}
 
-	if (func.noclip)
+	if (::hack->func.noclip)
 	{
 		if (::GetAsyncKeyState(VK_XBUTTON2) & 1)
 		{
@@ -90,16 +98,16 @@ auto ::Hack::Loop(PlayerData &playerData) -> decltype(void())
 		//if (flag->IsEnemy(playerData.playerTeam))
 		//	continue;
 
-		if (func.line)
+		if (::hack->func.line)
 		{
 			::render.LineToPlayer(
 				{*reinterpret_cast<float *>(playerList + 0x28),
 				 *reinterpret_cast<float *>(playerList + 0x2C),
 				 *reinterpret_cast<float *>(playerList + 0x30)},
-				menu->col.line, 2.f);
+				::menu->col.line, 2.f);
 		}
 
-		if (func.teleport)
+		if (::hack->func.teleport)
 		{
 			if (::GetAsyncKeyState(0x54))
 			{

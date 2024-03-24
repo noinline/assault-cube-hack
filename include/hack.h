@@ -69,25 +69,25 @@ class Hack
 
 	struct PlayerData
 	{
-		int localPlayer;
-		char *localPlayerName;
-		int localPlayerFlags;
-		int localPlayerTeam;
-		float localPosX;
-		float localPosY;
-		float localPosZ;
-		float finalPosX;
-		int entList;
-		int playerCount;
-		int playerTeam;
-		int localPlayerHealthAddress;
-		int localPlayerHealth;
+		int localPlayer = 0;
+		char *localPlayerName = nullptr;
+		int localPlayerFlags = 0;
+		int localPlayerTeam = 0;
+		float localPosX = 0.0f;
+		float localPosY = 0.0f;
+		float localPosZ = 0.0f;
+		float finalPosX = 0.0f;
+		int entList = 0;
+		int playerCount = 0;
+		int playerTeam = 0;
+		int localPlayerHealthAddress = 0;
+		int localPlayerHealth = 0;
 		const int localPlayerHealthModified = HealthModified;
-		int cameraAddress;
-		int camera;
+		int cameraAddress = 0;
+		int camera = 0;
 		const int cameraModified = CameraModified;
-		int debugModeFreeCameraAddress;
-		int debugMode;
+		int debugModeFreeCameraAddress = 0;
+		int debugMode = 0;
 		const int debugModeModified = DebugModeModified;
 
 		PlayerData()

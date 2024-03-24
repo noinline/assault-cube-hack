@@ -8,10 +8,10 @@ class Menu
 		ImColor line = {255, 255, 255, 255};
 	} col;
 
-	int currentTab;
+	int currentTab = 0;
 
   public:
-	void Render();
+	void ShowMenu();
 };
 
 extern ::Menu *menu;
